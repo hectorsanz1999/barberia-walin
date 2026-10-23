@@ -56,10 +56,10 @@ jobs:
           retention-days: 14
 
   # ==========================================================
-  # JOB 2: Generación automática de APK de Android
+  # JOB 2: Generación de DOS APKs (BarberiaWalin y BarberiaWalin-Admin)
   # ==========================================================
   build-android:
-    name: Generar APK Android
+    name: Generar APKs (Barbería Walin & Barbería Walin Admin)
     runs-on: ubuntu-latest
     steps:
       - name: Descargar Código
@@ -80,23 +80,73 @@ jobs:
       - name: Instalar Dependencias
         run: npm install --legacy-peer-deps
 
-      - name: Compilar Web
-        run: npm run build
-
-      - name: Sincronizar Capacitor Android
-        run: npx cap sync android
+      - name: Aplicar Icono Oficial de Barbería Walin
+        run: |
+          for dir in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
+            mkdir -p android/app/src/main/res/mipmap-${dir}
+            cp public/assets/aistudio/image_4f80078f.png android/app/src/main/res/mipmap-${dir}/ic_launcher.png
+            cp public/assets/aistudio/image_4f80078f.png android/app/src/main/res/mipmap-${dir}/ic_launcher_round.png
+            cp public/assets/aistudio/image_4f80078f.png android/app/src/main/res/mipmap-${dir}/ic_launcher_foreground.png
+          done
 
       - name: Dar permisos a Gradle
         run: chmod +x android/gradlew
 
-      - name: Compilar APK (Debug)
+      # -------------------------------------------------------------
+      # 1. Compilar APP CLIENTES: BarberiaWalin.apk
+      # -------------------------------------------------------------
+      - name: Compilar Web para Barbería Walin
+        run: VITE_APP_MODE=client npm run build
+
+      - name: Sincronizar Capacitor para Barbería Walin
+        run: npx cap sync android
+
+      - name: Configurar Nombre 'Barbería Walin'
+        run: |
+          sed -i 's/<string name="app_name">.*<\/string>/<string name="app_name">Barbería Walin<\/string>/g' android/app/src/main/res/values/strings.xml
+          sed -i 's/<string name="title_activity_main">.*<\/string>/<string name="title_activity_main">Barbería Walin<\/string>/g' android/app/src/main/res/values/strings.xml
+
+      - name: Generar APK BarberiaWalin.apk
         run: |
           cd android
-          ./gradlew assembleDebug --no-daemon
+          ./gradlew clean assembleDebug --no-daemon
+          mkdir -p ../build-apks
+          cp app/build/outputs/apk/debug/app-debug.apk ../build-apks/BarberiaWalin.apk
 
-      - name: Subir APK de Android
+      # -------------------------------------------------------------
+      # 2. Compilar APP ADMINISTRACIÓN: BarberiaWalin-Admin.apk
+      # -------------------------------------------------------------
+      - name: Compilar Web para Barbería Walin Admin
+        run: VITE_APP_MODE=admin npm run build
+
+      - name: Sincronizar Capacitor para Barbería Walin Admin
+        run: npx cap sync android
+
+      - name: Configurar Nombre e ID para 'Barbería Walin Admin'
+        run: |
+          sed -i 's/applicationId "com.barberiawalin.app"/applicationId "com.barberiawalin.admin"/g' android/app/build.gradle
+          sed -i 's/<string name="app_name">.*<\/string>/<string name="app_name">Barbería Walin Admin<\/string>/g' android/app/src/main/res/values/strings.xml
+          sed -i 's/<string name="title_activity_main">.*<\/string>/<string name="title_activity_main">Barbería Walin Admin<\/string>/g' android/app/src/main/res/values/strings.xml
+
+      - name: Generar APK BarberiaWalin-Admin.apk
+        run: |
+          cd android
+          ./gradlew clean assembleDebug --no-daemon
+          cp app/build/outputs/apk/debug/app-debug.apk ../build-apks/BarberiaWalin-Admin.apk
+
+      # -------------------------------------------------------------
+      # 3. Subir ambos archivos .APK listos para descargar
+      # -------------------------------------------------------------
+      - name: Subir Instalador BarberiaWalin.apk
         uses: actions/upload-artifact@v4
         with:
-          name: BarberiaWalin-Android-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: BarberiaWalin-APK
+          path: build-apks/BarberiaWalin.apk
+          retention-days: 14
+
+      - name: Subir Instalador BarberiaWalin-Admin.apk
+        uses: actions/upload-artifact@v4
+        with:
+          name: BarberiaWalin-Admin-APK
+          path: build-apks/BarberiaWalin-Admin.apk
           retention-days: 14
