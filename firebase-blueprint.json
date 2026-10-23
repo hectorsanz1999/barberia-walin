@@ -1,0 +1,112 @@
+{
+  "entities": {
+    "Appointment": {
+      "title": "Appointment",
+      "description": "Barber shop reservation booking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "clientName": { "type": "string", "maxLength": 100 },
+        "clientPhone": { "type": "string", "maxLength": 30 },
+        "clientEmail": { "type": "string", "maxLength": 120 },
+        "serviceId": { "type": "string", "maxLength": 50 },
+        "serviceName": { "type": "string", "maxLength": 100 },
+        "servicePrice": { "type": "number" },
+        "barberId": { "type": "string", "maxLength": 50 },
+        "barberName": { "type": "string", "maxLength": 100 },
+        "branchId": { "type": "string", "maxLength": 50 },
+        "branchName": { "type": "string", "maxLength": 100 },
+        "date": { "type": "string", "maxLength": 20 },
+        "time": { "type": "string", "maxLength": 20 },
+        "status": { "type": "string", "enum": ["pendiente", "confirmada", "completada", "cancelada"] },
+        "notes": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["clientName", "clientPhone", "serviceName", "barberName", "date", "time", "status"]
+    },
+    "Service": {
+      "title": "Service",
+      "description": "Barber shop catalog service item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 300 },
+        "price": { "type": "number" },
+        "durationMinutes": { "type": "number" },
+        "category": { "type": "string", "maxLength": 50 },
+        "popular": { "type": "boolean" },
+        "active": { "type": "boolean" }
+      },
+      "required": ["name", "price", "durationMinutes"]
+    },
+    "Barber": {
+      "title": "Barber",
+      "description": "Barber professional profile",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "role": { "type": "string", "maxLength": 100 },
+        "specialties": { "type": "string", "maxLength": 200 },
+        "rating": { "type": "number" },
+        "available": { "type": "boolean" },
+        "branchId": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["name", "role"]
+    },
+    "Branch": {
+      "title": "Branch",
+      "description": "Barbershop physical store branch location in Honduras",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "address": { "type": "string", "maxLength": 200 },
+        "city": { "type": "string", "maxLength": 100 },
+        "department": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 50 },
+        "whatsapp": { "type": "string", "maxLength": 50 },
+        "schedule": { "type": "string", "maxLength": 200 },
+        "active": { "type": "boolean" }
+      },
+      "required": ["name", "address"]
+    },
+    "ShopSettings": {
+      "title": "ShopSettings",
+      "description": "Barbershop contact, hours, currency and notification configuration",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "currency": { "type": "string", "maxLength": 10 },
+        "currencySymbol": { "type": "string", "maxLength": 10 },
+        "phone": { "type": "string", "maxLength": 50 },
+        "whatsapp": { "type": "string", "maxLength": 50 },
+        "announcement": { "type": "string", "maxLength": 300 }
+      },
+      "required": ["name", "currencySymbol"]
+    }
+  },
+  "firestore": {
+    "/appointments/{appointmentId}": {
+      "schema": "Appointment",
+      "description": "Client bookings and admin managed appointments"
+    },
+    "/services/{serviceId}": {
+      "schema": "Service",
+      "description": "Barbershop services catalog items"
+    },
+    "/barbers/{barberId}": {
+      "schema": "Barber",
+      "description": "Staff barbers profiles"
+    },
+    "/branches/{branchId}": {
+      "schema": "Branch",
+      "description": "Barbershop branches in Saba, Colon, Honduras"
+    },
+    "/settings/{settingId}": {
+      "schema": "ShopSettings",
+      "description": "General barbershop settings and configuration"
+    }
+  }
+}

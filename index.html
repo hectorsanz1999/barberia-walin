@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Barbería Walin - App & Web iOS Experience</title>
+    <meta name="description" content="Aplicación web y móvil con diseño nativo iOS para Barbería Walin: reserva de citas en línea, catálogo de servicios, barberos expertos, con la mejor atención de nuestro equipo de trabajo." />
+    <meta property="og:title" content="Barbería Walin - App & Web iOS Experience" />
+    <meta property="og:description" content="Aplicación web y móvil con diseño nativo iOS para Barbería Walin: reserva de citas en línea, catálogo de servicios, barberos expertos, con la mejor atención de nuestro equipo de trabajo." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/assets/aistudio/logo_87989ac7.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Web App Manifest for Android APK, iOS & PWABuilder -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- iOS Native App Meta Tags & Apple Touch Icon -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Barbería Walin" />
+    <meta name="application-name" content="Barbería Walin" />
+    <meta name="theme-color" content="#0a0a0c" />
+    
+    <!-- Icons (Golden Crown Barber Logo) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/pwa-192x192.png" />
+
+    <!-- Preconnect Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cinzel:wght@600;700;800;900&display=swap" rel="stylesheet">
+  </head>
+  <body class="h-full bg-[#0a0a0c] text-[#f2f2f7] antialiased selection:bg-[#c5a059]/30 selection:text-white select-none">
+    <div id="root" class="h-full"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js', { scope: '/' })
+            .then(function(reg) {
+              console.log('Barbería Walin PWA ServiceWorker registered with scope:', reg.scope);
+            })
+            .catch(function(err) {
+              console.warn('ServiceWorker registration failed:', err);
+            });
+        });
+      }
+    </script>
+  </body>
+</html>

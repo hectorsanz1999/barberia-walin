@@ -1,0 +1,63 @@
+{
+  "id": "/",
+  "name": "Barbería Walin",
+  "short_name": "Walin Barber",
+  "description": "Aplicación web y móvil con diseño nativo iOS para Barbería Walin: reserva de citas en línea, catálogo de servicios, barberos expertos, con la mejor atención de nuestro equipo de trabajo en Sabá, Colón, Honduras.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0a0c",
+  "theme_color": "#0a0a0c",
+  "lang": "es",
+  "dir": "ltr",
+  "categories": ["lifestyle", "business", "shopping"],
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/aistudio/logo_87989ac7.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/aistudio/image_e21f9bbf.png",
+      "sizes": "1170x2532",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Panel y citas de Barbería Walin"
+    },
+    {
+      "src": "/assets/aistudio/logo_87989ac7.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Logo Oficial Barbería Walin"
+    }
+  ]
+}

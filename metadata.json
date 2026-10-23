@@ -1,0 +1,8 @@
+{
+  "name": "Barbería Walin",
+  "description": "Aplicación web y móvil con diseño nativo iOS para Barbería Walin: reserva de citas en línea, catálogo de servicios, barberos expertos, con la mejor atención de nuestro equipo de trabajo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

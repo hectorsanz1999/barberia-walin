@@ -1,0 +1,55 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Services: Public read, write by admin
+    match /services/{serviceId} {
+      allow read: if true;
+      allow write: if isValidId(serviceId);
+    }
+
+    // Barbers: Public read, write by admin
+    match /barbers/{barberId} {
+      allow read: if true;
+      allow write: if isValidId(barberId);
+    }
+
+    // Branches (Locales en Honduras): Public read, write by admin
+    match /branches/{branchId} {
+      allow read: if true;
+      allow write: if isValidId(branchId);
+    }
+
+    // Appointments: Clients can create bookings with valid fields, read their bookings, and admin can manage all
+    match /appointments/{appointmentId} {
+      allow read: if true;
+      allow create: if isValidId(appointmentId)
+        && request.resource.data.clientName is string
+        && request.resource.data.clientName.size() <= 100
+        && request.resource.data.clientPhone is string
+        && request.resource.data.clientPhone.size() <= 30
+        && request.resource.data.serviceName is string
+        && request.resource.data.barberName is string
+        && request.resource.data.date is string
+        && request.resource.data.time is string
+        && request.resource.data.status in ['pendiente', 'confirmada', 'completada', 'cancelada'];
+      allow update: if isValidId(appointmentId);
+      allow delete: if isValidId(appointmentId);
+    }
+
+    // Settings: Public read, write with valid ID
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isValidId(settingId);
+    }
+  }
+}

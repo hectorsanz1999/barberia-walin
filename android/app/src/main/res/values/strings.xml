@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Barbería Walin</string>
+    <string name="title_activity_main">Barbería Walin</string>
+    <string name="package_name">com.barberiawalin.app</string>
+    <string name="custom_url_scheme">com.barberiawalin.app</string>
+</resources>
