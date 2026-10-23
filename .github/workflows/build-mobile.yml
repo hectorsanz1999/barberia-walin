@@ -82,12 +82,23 @@ jobs:
 
       - name: Aplicar Icono Oficial de Barbería Walin
         run: |
-          for dir in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
-            mkdir -p android/app/src/main/res/mipmap-${dir}
-            cp public/assets/aistudio/image_4f80078f.png android/app/src/main/res/mipmap-${dir}/ic_launcher.png
-            cp public/assets/aistudio/image_4f80078f.png android/app/src/main/res/mipmap-${dir}/ic_launcher_round.png
-            cp public/assets/aistudio/image_4f80078f.png android/app/src/main/res/mipmap-${dir}/ic_launcher_foreground.png
-          done
+          ICON=""
+          if [ -f "public/pwa-512x512.png" ]; then
+            ICON="public/pwa-512x512.png"
+          elif [ -f "public/apple-touch-icon.png" ]; then
+            ICON="public/apple-touch-icon.png"
+          elif [ -f "public/favicon.png" ]; then
+            ICON="public/favicon.png"
+          fi
+          if [ -n "$ICON" ]; then
+            echo "Aplicando icono oficial: $ICON"
+            for dir in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
+              mkdir -p android/app/src/main/res/mipmap-${dir}
+              cp "$ICON" android/app/src/main/res/mipmap-${dir}/ic_launcher.png
+              cp "$ICON" android/app/src/main/res/mipmap-${dir}/ic_launcher_round.png
+              cp "$ICON" android/app/src/main/res/mipmap-${dir}/ic_launcher_foreground.png
+            done
+          fi
 
       - name: Dar permisos a Gradle
         run: chmod +x android/gradlew
@@ -120,7 +131,9 @@ jobs:
         run: VITE_APP_MODE=admin npm run build
 
       - name: Sincronizar Capacitor para Barbería Walin Admin
-        run: npx cap sync android
+        run: |
+          cd .. || true
+          npx cap sync android
 
       - name: Configurar Nombre e ID para 'Barbería Walin Admin'
         run: |
