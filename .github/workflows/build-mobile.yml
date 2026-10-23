@@ -131,9 +131,7 @@ jobs:
         run: VITE_APP_MODE=admin npm run build
 
       - name: Sincronizar Capacitor para Barbería Walin Admin
-        run: |
-          cd .. || true
-          npx cap sync android
+        run: npx cap sync android
 
       - name: Configurar Nombre e ID para 'Barbería Walin Admin'
         run: |
